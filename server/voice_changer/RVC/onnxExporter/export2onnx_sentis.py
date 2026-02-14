@@ -29,6 +29,7 @@ from voice_changer.RVC.onnxExporter.SynthesizerTrnMsNSFsidNono_webui_ONNX import
 from voice_changer.RVC.onnxExporter.SynthesizerTrnMsNSFsid_webui_ONNX import (
     SynthesizerTrnMsNSFsid_webui_ONNX,
 )
+from voice_changer.RVC.onnxExporter.verify_sentis_onnx import verify_sentis_onnx
 from voice_changer.VoiceChangerParamsManager import VoiceChangerParamsManager
 
 
@@ -275,6 +276,25 @@ def _parse_args():
     )
     parser.add_argument("--gpu", type=int, default=0, help="CUDA device index for optional fp16 export")
     parser.add_argument("--fp16", action="store_true", help="Enable fp16 export when CUDA is available")
+    parser.add_argument("--verify", action="store_true", help="Run Sentis checks after export")
+    parser.add_argument("--verify-max-opset", type=int, default=15, help="Allowed max opset for verification")
+    parser.add_argument(
+        "--verify-seq-len",
+        type=int,
+        default=64,
+        help="Sequence length used for ORT dry-run verification",
+    )
+    parser.add_argument(
+        "--verify-batch-size",
+        type=int,
+        default=1,
+        help="Batch size used for ORT dry-run verification",
+    )
+    parser.add_argument(
+        "--verify-skip-ort",
+        action="store_true",
+        help="Skip ORT dry-run and run static checks only",
+    )
     return parser.parse_args()
 
 
@@ -300,9 +320,21 @@ def main():
         gpu=args.gpu,
         opset_version=15,
     )
-    print(f"[Voice Changer] Sentis ONNX exported: {os.path.join(args.output_dir, output_file)}")
+    output_path = os.path.join(args.output_dir, output_file)
+    print(f"[Voice Changer] Sentis ONNX exported: {output_path}")
+
+    if args.verify:
+        ok = verify_sentis_onnx(
+            onnx_path=output_path,
+            max_opset=args.verify_max_opset,
+            run_ort=not args.verify_skip_ort,
+            seq_len=args.verify_seq_len,
+            batch_size=args.verify_batch_size,
+        )
+        if not ok:
+            raise RuntimeError("Sentis ONNX verification failed.")
+        print("[Voice Changer] Sentis ONNX verification passed.")
 
 
 if __name__ == "__main__":
     main()
-

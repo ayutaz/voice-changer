@@ -182,6 +182,8 @@ RVC向けに **Sentis専用ONNX生成ルート** を追加し、既存ルート�
 
 - 2026-02-14 時点で `server/voice_changer/RVC/onnxExporter/export2onnx_sentis.py` を追加済み  
   （`opset=15`, `onnxsim`, `int64->int32`, CLI `--slot-index` 対応）
+- 2026-02-14 時点で `server/voice_changer/RVC/onnxExporter/verify_sentis_onnx.py` を追加済み  
+  （opset上限チェック、int64残存検査、ORTダミー推論）
 
 ### 7.3 検証環境
 
@@ -227,12 +229,12 @@ Sentis実行において、以下が解消できない場合はONNX Runtime経�
 ## 10. 次フェーズ実装タスク（チェックリスト）
 
 - [x] `export2onnx_sentis.py` の新規追加（opset15/int32変換対応）
-- [ ] 変換結果の自動検証スクリプト追加（opset/dtype/shape）
+- [x] 変換結果の自動検証スクリプト追加（opset/dtype/shape）
 - [ ] Unity検証用の最小Runner作成（RVC推論器単体）
 - [ ] backendフォールバック戦略の実装
 - [ ] RVC前段処理（embedder/F0）のUnity実装方針を確定
 
-## 11. 追加済みスクリプトの使い方（暫定）
+## 11. 追加済みスクリプトの使い方（最新版）
 
 Sentis向けに追加した `export2onnx_sentis.py` は、slot情報（`logs/<slot>/params.json`）を使って変換する。
 
@@ -242,13 +244,33 @@ Sentis向けに追加した `export2onnx_sentis.py` は、slot情報（`logs/<sl
 uv add numpy onnx onnxsim onnxruntime torch
 ```
 
-例:
+変換のみ:
 
 ```bash
 uv run python -m voice_changer.RVC.onnxExporter.export2onnx_sentis \
   --slot-index 0 \
   --model-dir logs \
   --output-dir tmp_dir
+```
+
+変換 + 検証（推奨）:
+
+```bash
+uv run python -m voice_changer.RVC.onnxExporter.export2onnx_sentis \
+  --slot-index 0 \
+  --model-dir logs \
+  --output-dir tmp_dir \
+  --verify
+```
+
+生成済みONNXの単体検証:
+
+```bash
+uv run python -m voice_changer.RVC.onnxExporter.verify_sentis_onnx \
+  --onnx tmp_dir/model_sentis_op15_fp32_simple.onnx \
+  --max-opset 15 \
+  --seq-len 64 \
+  --batch-size 1
 ```
 
 FP16（CUDA使用可能時のみ）:

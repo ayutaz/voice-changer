@@ -91,3 +91,9 @@
 2. Unity Sentisで対象モデルの推論が安定動作する。
 3. 主要な制約・回避策・運用手順が `docs` に明文化されている。
 4. 失敗時のフォールバック手順（ONNX Runtime）が実運用可能である。
+
+## 9. 進捗メモ（2026-02-14）
+
+1. `export2onnx_sentis.py` を導入済み（opset 15 / int64->int32）。
+2. `verify_sentis_onnx.py` を導入済み（opset/int64/ORTダミー推論検証）。
+3. 次アクションは Unity Sentis最小Runner実装と backendフォールバック検証。
