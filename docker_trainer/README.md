@@ -49,21 +49,21 @@ trainer/dataset/
 batch sizeは適宜調整
 ```sh
 $ cp configs_org/baseconfig.json configs/
-$ python3 normalize.py True
-$ python3 create_dataset.py -f train_config -s 24000 -m dataset/multi_speaker_correspondence.txt
+$ uv run python normalize.py True
+$ uv run python create_dataset.py -f train_config -s 24000 -m dataset/multi_speaker_correspondence.txt
 $ tensorboard --logdir logs --port 5000 --bind_all &
 # batch size 変更
-$ python3 train_ms.py -c configs/train_config.json -m 20220306_24000 -fg fine_model/G_v15_best.pth -fd fine_model/D_v15_best.pth
+$ uv run python train_ms.py -c configs/train_config.json -m 20220306_24000 -fg fine_model/G_v15_best.pth -fd fine_model/D_v15_best.pth
 
 
-$ python3 train_ms.py -c configs/train_config.json -m 20220306_24000
+$ uv run python train_ms.py -c configs/train_config.json -m 20220306_24000
 ```
 
 (x) テスト
 ```
-$ python3 MMVC_Client/python/conver_test.py -m logs/G_40000.pth -c configs/train_config.json -s 0 -t 101 --input dataset/00_myvoice/wav/emotion011.wav --output dataset/test.wav --f0_scale 3
+$ uv run python MMVC_Client/python/conver_test.py -m logs/G_40000.pth -c configs/train_config.json -s 0 -t 101 --input dataset/00_myvoice/wav/emotion011.wav --output dataset/test.wav --f0_scale 3
 ```
 
 
 (X) onnx
-python3 onnx_export.py  --config_file logs/train_config.json  --convert_pth logs/G_220000.pth
+uv run python onnx_export.py  --config_file logs/train_config.json  --convert_pth logs/G_220000.pth

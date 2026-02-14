@@ -5,15 +5,16 @@
 ## Prerequisit
 
 - Linux(ubuntu, debian) or WSL2, (not tested for other linux distributions and Mac)
-- Anaconda
+- uv
 
 ## Preparation
 
-1. Create anaconda virtual environment
+1. Create a uv virtual environment
 
 ```
-$ conda create -n vcclient-dev python=3.10
-$ conda activate vcclient-dev
+$ uv python install 3.10
+$ uv venv --python 3.10
+$ source .venv/bin/activate
 ```
 
 2. clone repository
@@ -28,7 +29,7 @@ $ git clone https://github.com/w-okada/voice-changer.git
 
 ```
 $ cd voice-changer/server
-$ pip install -r requirements.txt
+$ uv sync
 ```
 
 2. Run server
@@ -36,7 +37,7 @@ $ pip install -r requirements.txt
 Run server with the below command. You can replace the path to each weight.
 
 ```
-$ python3 MMVCServerSIO.py -p 18888 --https true \
+$ uv run python MMVCServerSIO.py -p 18888 --https true \
     --content_vec_500 pretrain/checkpoint_best_legacy_500.pt  \
     --content_vec_500_onnx pretrain/content_vec_500.onnx \
     --content_vec_500_onnx_on true \
@@ -90,19 +91,19 @@ export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 
 ### Appendix
 
-1. Win + Anaconda (not supported)
+1. Win + uv (not supported)
 
-use conda to install pytorch
+Install PyTorch with uv using CUDA 11.8 wheels.
 
 ```
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+uv add --index-url https://download.pytorch.org/whl/cu118 torch torchvision torchaudio
 ```
 
 Also run these command.
 
 ```
-pip install chardet
-pip install numpy==1.24.0
+uv add chardet
+uv add "numpy==1.24.0"
 ```
 
 ## For Client Developer

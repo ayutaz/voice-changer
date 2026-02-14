@@ -55,7 +55,7 @@ This is an app for performing voice changes with MMVC and so-vits-svc.
 It can be used in two main ways, in order of difficulty:
 
 - Using a pre-built binary
-- Setting up an environment with Docker or Anaconda and using it
+- Setting up an environment with Docker or uv and using it
 
 ## (1) Usage with pre-built binaries
 
@@ -89,19 +89,19 @@ It can be used in two main ways, in order of difficulty:
 
 - [Download from hugging face](https://huggingface.co/wok000/vcclient000/tree/main)
 
-## (2) Usage after setting up the environment such as Docker or Anaconda
+## (2) Usage after setting up the environment such as Docker or uv
 
-Clone this repository and use it. Setting up WSL2 is essential for Windows. Additionally, setting up virtual environments such as Docker or Anaconda on WSL2 is also required. On Mac, setting up Python virtual environments such as Anaconda is necessary. Although preparation is required, this method works the fastest in many environments. **<font color="red"> Even without a GPU, it may work well enough with a reasonably new CPU </font>(refer to the section on real-time performance below)**.
+Clone this repository and use it. Setting up WSL2 is essential for Windows. Additionally, setting up virtual environments such as Docker or uv on WSL2 is also required. On Mac, setting up a Python virtual environment with uv is recommended. Although preparation is required, this method works the fastest in many environments. **<font color="red"> Even without a GPU, it may work well enough with a reasonably new CPU </font>(refer to the section on real-time performance below)**.
 
 [Explanation video on installing WSL2 and Docker](https://youtu.be/POo_Cg0eFMU)
 
-[Explanation video on installing WSL2 and Anaconda](https://youtu.be/fba9Zhsukqw)
+[uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
 
 To run docker, see [start docker](docker_vcclient/README_en.md).
 
-To run on Anaconda venv, see [server developer's guide](README_dev_en.md)
+To run with uv, see [server developer's guide](README_dev_en.md)
 
-To run on Linux using an AMD GPU, see [setup guide linux](tutorials/tutorial_anaconda_amd_rocm.md)
+To run on Linux using an AMD GPU, see [setup guide linux](tutorials/tutorial_uv_amd_rocm.md)
 
 
 # Software Signing
@@ -149,3 +149,4 @@ Regarding the Real-time Voice Changer Kikoto Mahiro, we prohibit the following u
 # Disclaimer
 
 We are not liable for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use or inability to use this software.
+

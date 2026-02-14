@@ -54,7 +54,7 @@
 크게 두 가지 방법으로 사용할 수 있습니다. 난이도 순서는 다음과 같습니다.
 
 - 사전 빌드된 Binary 사용
-- Docker, Anaconda 등으로 구축된 개발 환경에서 사용
+- Docker, uv 등으로 구축된 개발 환경에서 사용
 
 이 소프트웨어나 MMVC에 익숙하지 않은 분들은 위에서부터 차근차근 익숙해지길 추천합니다.
 
@@ -91,17 +91,17 @@
 - DDPS-SVC의 encoder는 hubert-soft만 지원합니다.
 
 
-## (2) Docker나 Anaconda 등으로 구축된 개발 환경에서 사용
+## (2) Docker나 uv 등으로 구축된 개발 환경에서 사용
 
-이 리포지토리를 클론해 사용할 수 있습니다. Windows에서는 WSL2 환경 구축이 필수입니다. 또한, WSL2 상에 Docker나 Anaconda 등의 가상환경 구축이 필요합니다. Mac에서는 Anaconda 등의 Python 가상환경 구축이 필요합니다. 사전 준비가 필요하지만, 많은 환경에서 이 방법이 가장 빠르게 작동합니다. **<font color="red"> GPU가 없어도 나름 최근 출시된 CPU가 있다면 충분히 작동할 가능성이 있습니다</font>(아래 실시간성 항목 참조)**.
+이 리포지토리를 클론해 사용할 수 있습니다. Windows에서는 WSL2 환경 구축이 필수입니다. 또한, WSL2 상에 Docker나 uv 등의 가상환경 구축이 필요합니다. Mac에서는 uv 기반 Python 가상환경 구축을 권장합니다. 사전 준비가 필요하지만, 많은 환경에서 이 방법이 가장 빠르게 작동합니다. **<font color="red"> GPU가 없어도 나름 최근 출시된 CPU가 있다면 충분히 작동할 가능성이 있습니다</font>(아래 실시간성 항목 참조)**.
 
 [WSL2와 Docker 설치 설명 영상](https://youtu.be/POo_Cg0eFMU)
 
-[WSL2와 Anaconda 설치 설명 영상](https://youtu.be/fba9Zhsukqw)
+[uv 설치 가이드](https://docs.astral.sh/uv/getting-started/installation/)
 
 Docker에서 실행은 [Docker를 사용](docker_vcclient/README_ko.md)을 참고해 서버를 구동하세요.
 
-Anaconda 가상 환경에서 실행은 [서버 개발자용 문서](README_dev_ko.md)를 참고해 서버를 구동하세요.
+uv 가상 환경에서 실행은 [서버 개발자용 문서](README_dev_ko.md)를 참고해 서버를 구동하세요.
 
 # 문제 해결법
 

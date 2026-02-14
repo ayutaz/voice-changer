@@ -5,15 +5,16 @@
 ## 전제
 
 - Linux(ubuntu, debian) or WSL2, (다른 리눅스 배포판과 Mac에서는 테스트하지 않았습니다)
-- Anaconda
+- uv
 
 ## 준비
 
-1. Anaconda 가상 환경을 작성한다
+1. uv 가상 환경을 작성한다
 
 ```
-$ conda create -n vcclient-dev python=3.10
-$ conda activate vcclient-dev
+$ uv python install 3.10
+$ uv venv --python 3.10
+$ source .venv/bin/activate
 ```
  
 2. 리포지토리를 클론한다
@@ -28,7 +29,7 @@ $ git clone https://github.com/w-okada/voice-changer.git
 
 ```
 $ cd voice-changer/server
-$ pip install -r requirements.txt
+$ uv sync
 ```
 
 2. 서버를 구동한다
@@ -36,7 +37,7 @@ $ pip install -r requirements.txt
 다음 명령어로 구동합니다. 여러 가중치에 대한 경로는 환경에 맞게 변경하세요.
 
 ```
-$ python3 MMVCServerSIO.py -p 18888 --https true \
+$ uv run python MMVCServerSIO.py -p 18888 --https true \
     --content_vec_500 pretrain/checkpoint_best_legacy_500.pt  \
     --content_vec_500_onnx pretrain/content_vec_500.onnx \
     --content_vec_500_onnx_on true \
@@ -90,19 +91,19 @@ export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 
 ### Appendix
 
-1. Win + Anaconda일 때 (not supported)
+1. Win + uv일 때 (not supported)
 
-pytorch를 conda가 없으면 gpu를 인식하지 않을 수 있습니다.
+CUDA 11.8 환경에서는 PyTorch를 cu118 Wheel로 설치하면 GPU 인식에 유리합니다.
 
 ```
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+uv add --index-url https://download.pytorch.org/whl/cu118 torch torchvision torchaudio
 ```
 
 또한 추가로 아래 내용도 필요합니다.
 
 ```
-pip install chardet
-pip install numpy==1.24.0
+uv add chardet
+uv add "numpy==1.24.0"
 ```
 
 ## 클라이언트 개발자용

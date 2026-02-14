@@ -7,15 +7,16 @@
 ## Требования
 
 - Linux (Ubuntu, Debian) или WSL2 (другие дистрибуции Linux и Mac не тестировались)
-- Anaconda
+- uv
 
 ## Подготовка
 
-1. Создайте виртуальную среду Anaconda:
+1. Создайте виртуальную среду uv:
 
 ```
-$ conda create -n vcclient-dev python=3.10
-$ conda activate vcclient-dev
+$ uv python install 3.10
+$ uv venv --python 3.10
+$ source .venv/bin/activate
 ```
 
 2. Клонируйте репозиторий:
@@ -30,7 +31,7 @@ $ git clone https://github.com/w-okada/voice-changer.git
 
 ```
 $ cd voice-changer/server
-$ pip install -r requirements.txt
+$ uv sync
 ```
 
 2. Запустите сервер
@@ -38,7 +39,7 @@ $ pip install -r requirements.txt
 Запустите сервер с помощью следующей команды. Вы можете указать свои пути к весам моделей.
 
 ```
-$ python3 MMVCServerSIO.py -p 18888 --https true \
+$ uv run python MMVCServerSIO.py -p 18888 --https true \
     --content_vec_500 pretrain/checkpoint_best_legacy_500.pt  \
     --content_vec_500_onnx pretrain/content_vec_500.onnx \
     --content_vec_500_onnx_on true \
@@ -92,19 +93,19 @@ export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 
 ### Приложение
 
-1. Windows + Anaconda (не поддерживается)
+1. Windows + uv (не поддерживается)
 
-Используйте conda для установки PyTorch:
+Установите PyTorch через uv с wheel CUDA 11.8:
 
 ```
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+uv add --index-url https://download.pytorch.org/whl/cu118 torch torchvision torchaudio
 ```
 
 Также выполните эти команды:
 
 ```
-pip install chardet
-pip install numpy==1.24.0
+uv add chardet
+uv add "numpy==1.24.0"
 ```
 
 ## Для клиентских разработчиков

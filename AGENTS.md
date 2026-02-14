@@ -30,7 +30,7 @@
 ## よく使うコマンド
 - サーバ依存の導入:
   - `cd server`
-  - `pip install -r requirements.txt`
+  - `uv sync`
 - クライアント（lib）:
   - `cd client/lib`
   - `npm install`

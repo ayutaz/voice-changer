@@ -18,28 +18,26 @@ First, you need to install the appropriate drivers on your system. Most distribu
 
 Next, install ROCm following the [official AMD guide](https://rocm.docs.amd.com/en/latest/deploy/linux/index.html). You can install the package using the [package manager](https://rocm.docs.amd.com/en/latest/deploy/linux/os-native/install.html) or by using the [AMDGPU Install script](https://rocm.docs.amd.com/en/latest/deploy/linux/installer/index.html).
 
-### Anaconda (optional)
+### uv (recommended)
 
-The second dependency is optional but recommended. Anaconda can be used to manage Python packages and environments, preventing dependency conflicts when using multiple software with the same libraries. Many distributions allow Anaconda installation through the [package manager](https://docs.anaconda.com/free/anaconda/install/linux/). Alternatively, download the package from the [Anaconda website](https://www.anaconda.com/download) and manually run the installer:
-
+The second dependency is recommended. `uv` can manage Python versions, virtual environments, and packages with a single workflow and helps avoid dependency conflicts.
 
 ```bash
-cd ~/Downloads
-chmod u+x Anaconda3-xxx-Linux-x86_64.sh
-./Anaconda3-xxx-Linux-x86_64.sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 ## Setup Environment
-Now create a new environment, download the voice changer, and set up the dependencies. First create the new environment using conda and specify a Python version. Python 3.10.9 works well with ROCm 7.2 - for other versions check the PyTorch documentation:
+Now create a new environment, download the voice changer, and set up the dependencies. First create the new environment using `uv` and specify a Python version. Python 3.10.9 works well with ROCm 7.2 - for other versions check the PyTorch documentation:
 
 ```bash
-conda create --name voicechanger python=3.10.9
+uv python install 3.10.9
+uv venv --python 3.10.9
 ```
 
 Activate the environment to install dependencies within it:
 
 ```bash
-conda activate voicechanger
+source .venv/bin/activate
 ```
 
 Next create a new directory and clone the Github repository. Using this solution you don't need to download a release from HuggingFace.
@@ -53,7 +51,7 @@ git clone https://github.com/w-okada/voice-changer.git
 
 ## Install Dependencies
 
-After downloading the repository, install all dependencies. Start with PyTorch for ROCm. AMD provides a [guide](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-pytorch.html) for installing the correct PyTorch version, which is updated regularly. Begin by downloading Torch and Torchvision because the other steps are handled automatically when creating the conda environment:
+After downloading the repository, install all dependencies. Start with PyTorch for ROCm. AMD provides a [guide](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-pytorch.html) for installing the correct PyTorch version, which is updated regularly. Begin by downloading Torch and Torchvision wheels:
 
 ```bash
 # The versions of the Wheels can vary based on your GPU and the current ROCm release
@@ -70,24 +68,24 @@ torchvision-0.15.2+rocm5.7-cp310-cp310-linux_x86_64.whl
 voice-changer
 ```
 
-Now, install PyTorch within the environment:
+Now, add PyTorch wheels to the environment:
 
 ```bash
-pip3 install --force-reinstall torch-2.0.1+rocm5.7-cp310-cp310-linux_x86_64.whl torchvision-0.15.2+rocm5.7-cp310-cp310-linux_x86_64.whl 
+uv add ./torch-2.0.1+rocm5.7-cp310-cp310-linux_x86_64.whl ./torchvision-0.15.2+rocm5.7-cp310-cp310-linux_x86_64.whl
 ```
 
-To run the voice changer, install additional dependencies using pip. Navigate to the server directory and use pip to install the requirements.txt file:
+To run the voice changer, install additional dependencies with `uv`. Navigate to the server directory and sync dependencies:
 
 ```bash
 cd ~/Documents/voicechanger/voice-changer/server
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Start the server
 After installing the dependencies, run the server using the MMVCServerSIO.py file:
 
 ```bash
-python3 MMVCServerSIO.py
+uv run python MMVCServerSIO.py
 ```
 
 The server will download all the required models and run. Now you can use the voice changer through the WebUI by opening http://127.0.0.1:18888/. You can select your GPU from the menu.
