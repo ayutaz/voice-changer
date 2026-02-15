@@ -161,6 +161,7 @@ def _export_checkpoint(
         net_g_onnx,
         inputs,
         output_model,
+        dynamo=False,
         dynamic_axes=dynamic_axes,
         do_constant_folding=False,
         opset_version=opset_version,
