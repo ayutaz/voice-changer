@@ -1,11 +1,33 @@
 [project]
 name = "voice-changer-server"
 version = "0.1.0"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
+    "dataclasses-json>=0.6.7",
+    "einops>=0.8.2",
+    "fairseq>=0.12.2",
+    "faiss-cpu>=1.13.2",
+    "fastapi>=0.129.0",
+    "gin>=0.1.6",
+    "gin-config>=0.5.0",
+    "librosa>=0.11.0",
+    "local-attention>=1.11.2",
+    "matplotlib>=3.10.8",
     "numpy>=2.2.6",
     "onnx>=1.20.1",
     "onnxruntime>=1.24.1",
     "onnxsim>=0.4.36",
+    "pyopenssl>=25.3.0",
+    "python-multipart>=0.0.22",
+    "python-socketio>=5.16.1",
+    "pyworld>=0.3.5",
+    "resampy>=0.4.3",
+    "scipy>=1.17.0",
+    "sounddevice>=0.5.5",
     "torch>=2.10.0",
+    "torchaudio>=2.10.0",
+    "torchcrepe>=0.0.24",
+    "torchfcpe>=0.0.4",
+    "uvicorn>=0.40.0",
+    "websockets>=16.0",
 ]
